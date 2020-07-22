@@ -1,26 +1,21 @@
-
-var canvas = document.getElementById("gameScreen");
-var ctx = canvas.getContext("2d");
-var x = canvas.width / 2;
-var y = canvas.height - 80;
-var xrichtung = 7;
-var yrichtung = -7;
-var ballRadius = 10;
-var paddleHeight= 30;
-var paddleWidth= 150;
-var paddleX = canvas.width / 2 - paddleWidth / 2;
-var paddleY = canvas.height - paddleHeight - 10;
-var paddledx;
-var rightpressed;
-var leftpressed;
-var cnter = 0;
-
+var canvas = document.getElementById("gameScreen"),
+ctx = canvas.getContext("2d"),
+x = canvas.width / 2,
+y = canvas.height - 80,
+xrichtung = 7,
+yrichtung = -7,
+ballRadius = 10,
+paddleHeight= 30,
+paddleWidth= 150,
+paddleX = canvas.width / 2 - paddleWidth / 2,
+paddleY = canvas.height - paddleHeight - 10,
+paddledx, rightpressed, leftpressed,
+cnter = 0;
 
 let right = new Audio();
 let left = new Audio();
 let punkt = new Audio();
 let main = new Audio();
-
 right.src = "audio/right.mp3";
 left.src = "audio/left.mp3";
 punkt.src ="audio/Punkt.mp3";
@@ -154,14 +149,37 @@ if (Math.floor(cnter / 2) == 50){
   x+= xrichtung;
   y+= yrichtung;
 requestAnimationFrame(draw);
-  main.play();
+  
 }
-
+main.play();
 draw();
 
+var mobiledevice = ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1));
+if(mobiledevice){
+  main.pause();
+  var script = document.getElementById("script");
+ var btn1 = document.createElement("button");
+ btn1.innerHTML = "🠔";
+ document.body.insertBefore(btn1, script);
 
-function analysierer(){
-    console.log("Paddle: "+paddleX);
+ var btn2 = document.createElement("button");
+btn2.innerHTML = "🠖"
+document.body.insertBefore(btn2, script);
+btn1.classList.add("button"); btn2.classList.add("button");
+ 
+btn1.addEventListener("touchstart", ()=>{
+  leftpressed = true;
+  rightpressed = false;
+})
+btn2.addEventListener("touchstart", ()=>{
+  leftpressed = false;
+  rightpressed = true;
+})
+btn1.addEventListener("touchend", ()=>{
+  leftpressed = false;
+})
+
+btn2.addEventListener("touchend", ()=>{
+  rightpressed = false;
+})
 }
-
-setInterval(analysierer,1000)
