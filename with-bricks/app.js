@@ -1,4 +1,4 @@
-let playerScore = 0, speed = 8, paddle, ball, bricks, gameState, bcolor;
+let playerScore = 0, speed = 8, paddle, ball, bricks, gameState, bcolor, paddlewidth = 170;
 
 const createColor = () => color(random(0, 255), random(0, 255), random(0, 255));
 
@@ -16,7 +16,7 @@ const createBricks = ()  => {
 function setup() {
   createCanvas(800, 600);
   gameState = 'playing';
-  paddle = new Paddle(speed);
+  paddle = new Paddle(paddlewidth, speed);
   ball = new Ball();
   bcolor = createColor();
   bricks = createBricks(createColor());
@@ -40,7 +40,6 @@ function draw() {
 
     for (let i = bricks.length - 1; i >= 0; i--) {
       if (bricks[i].isColliding(ball)) {
-        ball.reverse('y');
         bricks.splice(i, 1);
         playerScore += 1;
        } else {
@@ -70,15 +69,14 @@ function draw() {
 }
 
 class Paddle {
-    constructor(speed) {
-      this.width = 120
-      this.height = 25
-      this.location = createVector((width / 2) - (this.width / 2), height - 35)
-      this.speed = speed;
+    constructor(width, speed) {
+      this.width = width;
+      this.height = 25;
+      this.location = createVector((width / 2) - (this.width / 2), height - 35);
       this.speed = {
         right: createVector(speed, 0),
         left: createVector(speed * -1, 0)
-      }
+      };
     }
     
     
@@ -122,8 +120,10 @@ class Ball {
   
     bounceEdge() {
       if (this.location.x + this.radius >= width) {
+        this.location.x = width - this.radius;
         this.reverse('x')
       } else if(this.location.x - this.radius <= 0) {
+        this.location.x = this.radius;
         this.reverse('x')
       } else if(this.location.y - this.radius <= 0) {
         this.location.y = this.radius;
@@ -163,9 +163,14 @@ class Ball {
     }
   
     isColliding(ball) {
-     return (ball.location.y - ball.radius <= this.location.y + this.height &&
-          ball.location.y + ball.radius >= this.location.y &&
-          ball.location.x + ball.radius >= this.location.x &&
-          ball.location.x - ball.radius <= this.location.x + this.width) 
+      const bool = (ball.location.y - ball.radius <= this.location.y + this.height &&
+        ball.location.y + ball.radius >= this.location.y &&
+        ball.location.x + ball.radius >= this.location.x &&
+        ball.location.x - ball.radius <= this.location.x + this.width) 
+
+      if(bool)
+      ball.reverse('y');
+
+     return bool;
     }
   }
