@@ -1,22 +1,14 @@
-let playerScore = 0, speed = 8, paddle, ball, bricks, gameState, bcolor, paddlewidth, inp;
+let playerScore = 0, speed = 8, paddle, ball, bricks, gameState, bcolor, paddlewidth, inp, inp2, inp3, rows = 10, bricksPerRow = 10;
 
 let rightö = new Audio();
 let leftö = new Audio();
 let punkt = new Audio();
 let main = new Audio();
-rightö.src = "audio/right.mp3";
-leftö.src = "audio/left.mp3";
-punkt.src ="audio/Punkt.mp3";
-main.src ="audio/backgroundmusic.mp3"
-rightö.volume = 0.3;
-leftö.volume = 0.3;
-punkt.volume = 0.5;
-main.volume = 0.7;
 
 const createColor = () => color(random(0, 255), random(0, 255), random(0, 255));
 
 const createBricks = ()  => {
-    let bricks = [],rows = 10, bricksPerRow = 10, brickWidth = width / bricksPerRow;
+    let bricks = [], brickWidth = width / bricksPerRow;
     for (let row = 0; row < rows; row++) {
       for (let i = 0; i < bricksPerRow; i++) {
         brick = new Brick(createVector(brickWidth * i, 25 * row), brickWidth, 25);
@@ -33,8 +25,22 @@ function setup() {
   paddle = new Paddle(paddlewidth, speed);
   ball = new Ball();
   bcolor = createColor();
-  bricks = createBricks(createColor());
-  inp = createInput(paddlewidth, "range");
+  bricks = createBricks();
+  inp = createInput(paddlewidth.toString(), "range");
+  inp2 = createInput("10", "number");
+  inp3 = createInput("10", "number");
+  rows = 10;
+  bricksPerRow = 10;
+
+// Game Music 
+  rightö.src = "audio/right.mp3";
+  leftö.src = "audio/left.mp3";
+  punkt.src ="audio/Punkt.mp3";
+  main.src ="audio/backgroundmusic.mp3"
+  rightö.volume = 0.3;
+  leftö.volume = 0.3;
+  punkt.volume = 0.5;
+  main.volume = 0.7;
  
 }
 
@@ -81,7 +87,9 @@ function draw() {
       gameState = 'Win'
     }
   } else if(gameState === 'menu'){
-   
+    
+    bricks.forEach(brck => brck.display())
+
     button1 = createButton('Change background-color');
     button1.position(width/2, height/2);
     button1.mousePressed(()=>{ 
@@ -98,20 +106,34 @@ function draw() {
     inp.attribute("min", 20)
     inp.attribute("max", 300)
     inp.mouseMoved(()=>{
-     inp.attribute("oninput", "paddlewidth = this.value")
+    inp.attribute("oninput", "paddlewidth = this.value")
     paddlewidth = parseInt(paddlewidth);
     paddle = new Paddle(paddlewidth,speed);
     ball = new Ball();
     })
 
+    button3 = createButton('New Bricks');
+    button3.position(width/2 , height/2+20);
+    button3.mousePressed(()=>{ 
+    bricks = createBricks();
+    });
 
+    inp2.position(width/2 , height/2+40);
+    inp2.attribute("min", 1)
+    inp2.attribute("max", 15)   
+    inp2.attribute("oninput", "rows = parseInt(this.value); bricks = createBricks();");
 
+    inp3.position(width/2 , height/2+60)    
+    inp3.attribute("min", 1)
+    inp3.attribute("max", 30)
+    inp3.attribute("oninput", "bricksPerRow = parseInt(this.value); bricks = createBricks();");
+   
 
   } else {
     textSize(100)
     gameState === 'Lose' ? fill(55) : fill(55);
     let btnback = createButton("Back to the menu");
-    btnback.position(width/ 2, height/ 2 + 200)
+    btnback.position(width/ 2, height/ 2 + 200);
     btnback.mousePressed(()=>{
       gameState = "menu";
       removeElements();
