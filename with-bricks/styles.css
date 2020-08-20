@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    background: #3e4842;
+    font-family: 'Baloo Tamma 2', cursive;
+    font-size: 20px;
+   
+}
+
+canvas {
+    border: 1px solid black;
+    display: block;
+    margin: 0 auto;
+}
+
+button {
+    border-radius: 15px;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 10px 20px 10px 20px;
+    position: absolute;
+}
+#bgclr {
+   background-color: rgb(121, 99, 88);
+   bottom:1%;
+   left: 1%;
+   font-size: 15px;
+ 
+}
+
+#start {
+font-size: 30px;
+padding: 40px 80px 40px 80px;
+background-color: rgb(103, 207, 103);
+top: 50%;
+left:41%;
+}
+
+#inp {
+   position: absolute;
+   top: 25%;
+   left: 2%;
+   cursor: pointer;
+}
+
+#inp2, #inp3 {
+    position: absolute;
+    cursor: pointer;
+    top: 5%;
+    background-color: lavenderblush;
+}
+
+#inp2 {
+    left: 1%;
+}
+
+#inp3  {
+    left: 7%;
+}
+
+#brick {
+    bottom: 10%;
+    left: 1%;
+    background-color: rgb(121, 99, 88);
+}
+
+#back {
+    font-size: 25px;
+    padding: 30px 60px 30px 60px;
+    background-color: rgb(24, 82, 149);
+    top: 65%;
+    left:37%; 
+}
