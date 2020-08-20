@@ -88,7 +88,7 @@ function draw() {
   background(bcolor);
   paddle.display();
   if(gameState === 'playing') {
-  //  main.play();
+    main.play();
     ball.bounceEdge();
     ball.bouncePaddle();
     ball.update();
